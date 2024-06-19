@@ -1,0 +1,43 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Product {
+  id                   Int       @id @default(autoincrement())
+  isAvailable          Boolean
+  barcode              String?   @unique
+  productName          String
+  productDescription   String
+  brand                String
+  category             String
+  subCategory          String
+  price                Float
+  mrp                  Float
+  discount             Float?
+  stockCount           Int
+  minSelectableQuantity Int
+  maxSelectableQuantity Int
+  selectableQuantity   Int
+  weight               String
+  weightSIUnit         String
+  productLife          String?
+  productType          String
+  productIsFoodItem    String
+  keywords             String[]
+  productImage         String[]
+  variations           Variation[]
+}
+
+model Variation {
+  id             Int      @id @default(autoincrement())
+  productId      Int
+  color          String
+  size           String
+  stockCount     Int
+  product        Product  @relation(fields: [productId], references: [id])
+}
